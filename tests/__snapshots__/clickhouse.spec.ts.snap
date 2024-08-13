@@ -1,0 +1,34 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`introspection 1`] = `
+[
+  {
+    "columns": [
+      {
+        "dataType": "Int32",
+        "hasDefaultValue": true,
+        "isAutoIncrementing": false,
+        "isNullable": false,
+        "name": "id",
+      },
+      {
+        "dataType": "String",
+        "hasDefaultValue": true,
+        "isAutoIncrementing": false,
+        "isNullable": false,
+        "name": "name",
+      },
+      {
+        "dataType": "DateTime",
+        "hasDefaultValue": true,
+        "isAutoIncrementing": false,
+        "isNullable": false,
+        "name": "created_at",
+      },
+    ],
+    "isView": false,
+    "name": "test",
+    "schema": "founderpath",
+  },
+]
+`;

@@ -1,0 +1,40 @@
+{
+  "name": "@founderpath/kysely-clickhouse",
+  "version": "1.0.0",
+  "description": "Clickhouse Dialect for Kysely",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/founderpath/kysely-clickhouse"
+  },
+  "scripts": {
+    "prepare": "tsc",
+    "test": "vitest",
+    "build": "tsc"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "kysely",
+    "clickhouse"
+  ],
+  "author": "Makara Sok",
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "^1.5.2",
+    "@clickhouse/client": "^1.4.1",
+    "@types/bluebird": "^3.5.42",
+    "kysely": "^0.27.2",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.1"
+  },
+  "peerDependencies": {
+    "@clickhouse/client": "*",
+    "kysely": "*"
+  },
+  "dependencies": {
+    "bluebird": "^3.7.2"
+  }
+}

@@ -1,0 +1,12 @@
+node = "20.8.1"
+pnpm = "8.14.1"
+
+[tools.node]
+bundled-npm = false
+
+[plugins]
+gh = "source:https://raw.githubusercontent.com/maktouch/proto-toml-plugins/main/plugins/gh.toml"
+
+[settings]
+auto-install = true
+detect-strategy = "prefer-prototools"
