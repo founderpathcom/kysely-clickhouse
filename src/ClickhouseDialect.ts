@@ -36,7 +36,7 @@ export class ClickhouseDialect implements Dialect {
   }
 
   createIntrospector(db: Kysely<any>): DatabaseIntrospector {
-    return new ClickhouseIntrospector(db, this.#config);
+    return new ClickhouseIntrospector(db);
   }
 }
 
