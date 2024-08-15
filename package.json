@@ -1,6 +1,6 @@
 {
   "name": "@founderpath/kysely-clickhouse",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Clickhouse Dialect for Kysely",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

@@ -41,12 +41,11 @@ export class ClickhouseConnection implements DatabaseConnection {
 
     const resultSet = await this.#client.query({
       query,
-      format: 'JSONEachRow',
     })
-    const rows: O[] = await resultSet.json()
+    const response = await resultSet.json()
 
     return {
-      rows
+      rows: response.data as O[],
     }
 
   }
