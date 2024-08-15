@@ -5,6 +5,48 @@ exports[`introspection 1`] = `
   {
     "columns": [
       {
+        "dataType": "String",
+        "hasDefaultValue": true,
+        "isAutoIncrementing": false,
+        "isNullable": false,
+        "name": "name",
+      },
+      {
+        "dataType": "String",
+        "hasDefaultValue": true,
+        "isAutoIncrementing": false,
+        "isNullable": false,
+        "name": "timestamp",
+      },
+    ],
+    "isView": false,
+    "name": "_migrations",
+    "schema": "founderpath",
+  },
+  {
+    "columns": [
+      {
+        "dataType": "String",
+        "hasDefaultValue": true,
+        "isAutoIncrementing": false,
+        "isNullable": false,
+        "name": "id",
+      },
+      {
+        "dataType": "Int32",
+        "hasDefaultValue": true,
+        "isAutoIncrementing": false,
+        "isNullable": false,
+        "name": "is_locked",
+      },
+    ],
+    "isView": false,
+    "name": "_migrations_lock",
+    "schema": "founderpath",
+  },
+  {
+    "columns": [
+      {
         "dataType": "Int32",
         "hasDefaultValue": true,
         "isAutoIncrementing": false,

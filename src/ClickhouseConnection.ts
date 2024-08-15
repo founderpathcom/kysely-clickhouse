@@ -37,7 +37,33 @@ export class ClickhouseConnection implements DatabaseConnection {
   }
 
   async executeQuery<O>(compiledQuery: CompiledQuery): Promise<QueryResult<O>> {
+
+    if (compiledQuery.query.kind === 'InsertQueryNode') {
+
+      const values = [
+        compiledQuery.query.columns?.map(c => c.column.name) ?? [],
+        // @ts-expect-error: fix types
+        ...compiledQuery.query.values?.values.map(v => v.values) ?? [],
+      ]
+
+      const resultSet = await this.#client.insert({
+        table: compiledQuery.query.into.table.identifier.name,
+        format: 'JSONCompactEachRowWithNames',
+        values,
+        clickhouse_settings: {
+          date_time_input_format: 'best_effort',
+        },
+      })
+
+      return {
+        rows: [],
+        numAffectedRows: BigInt(resultSet.summary?.written_rows ?? 0),
+        numChangedRows: BigInt(resultSet.summary?.written_rows ?? 0),
+      }
+    }
+
     const query = this.prepareQuery(compiledQuery)
+    
 
     const resultSet = await this.#client.query({
       query,
