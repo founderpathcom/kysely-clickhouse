@@ -62,16 +62,28 @@ export class ClickhouseConnection implements DatabaseConnection {
       }
     }
 
-    const query = this.prepareQuery(compiledQuery)
-    
+    if (compiledQuery.query.kind === 'UpdateQueryNode' || compiledQuery.query.kind === 'SelectQueryNode') {
+      const query = this.prepareQuery(compiledQuery)
 
-    const resultSet = await this.#client.query({
-      query,
+      const resultSet = await this.#client.query({
+        query,
+      })
+      const response = await resultSet.json()
+
+      return {
+        rows: response.data as O[],
+      }
+    }
+
+    await this.#client.command({
+      query: this.prepareQuery(compiledQuery),
+      clickhouse_settings: {
+        wait_end_of_query: 1,
+      },
     })
-    const response = await resultSet.json()
 
     return {
-      rows: response.data as O[],
+      rows: [],
     }
 
   }
