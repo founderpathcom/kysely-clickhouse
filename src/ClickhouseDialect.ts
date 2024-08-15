@@ -3,7 +3,6 @@ import {
   Dialect,
   Driver,
   Kysely,
-  MysqlAdapter,
   MysqlQueryCompiler,
   QueryCompiler
 } from 'kysely';
@@ -11,6 +10,7 @@ import {
 import { ClickhouseDriver } from './ClickhouseDriver';
 import { ClickhouseIntrospector } from './ClickhouseIntrospector';
 import type { NodeClickHouseClientConfigOptions } from '@clickhouse/client/dist/config';
+import { ClickhouseAdapter } from './ClickhouseAdapter';
 
 export interface ClickhouseDialectConfig {
   options?: NodeClickHouseClientConfigOptions;
@@ -24,7 +24,7 @@ export class ClickhouseDialect implements Dialect {
   }
 
   createAdapter() {
-    return new MysqlAdapter();
+    return new ClickhouseAdapter();
   }
 
   createDriver(): Driver {
