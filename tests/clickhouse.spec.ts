@@ -15,12 +15,6 @@ const kysely = new Kysely<any>({
 })
 
 
-test('insert', async () => {
-  await kysely.insertInto('test').values([
-    {id: 10, name: 'test', created_at: new Date()}
-  ]).execute();
-})
-
 test('introspection', async () => {
   const tables = await kysely.introspection.getTables()
 

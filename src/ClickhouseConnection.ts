@@ -13,7 +13,13 @@ export class ClickhouseConnection implements DatabaseConnection {
   #client: NodeClickHouseClient
 
   constructor(config: ClickhouseDialectConfig) {
-    this.#client = createClient(config.options)
+    this.#client = createClient({
+      ...config.options,
+      clickhouse_settings: {
+        ...config.options?.clickhouse_settings,
+        date_time_input_format: 'best_effort',
+      }
+    })
   }
 
   prepareQuery<O>(compiledQuery: CompiledQuery): string {
