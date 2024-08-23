@@ -107,7 +107,7 @@ export class ClickhouseIntrospector implements DatabaseIntrospector {
       table.columns.push(
         Object.freeze({
           name: it.COLUMN_NAME,
-          dataType: it.DATA_TYPE.replace(/Nullable\(([^)]+)\)/g, '$1'),
+          dataType: it.DATA_TYPE.replace(/Nullable\(([^)]+)\)/g, '$1').replace(/Decimal\(\d{1,2},\s*\d{1,2}\)/g, "Decimal"),
           isNullable: it.IS_NULLABLE === "1",
           isAutoIncrementing: it.EXTRA.toLowerCase().includes('auto_increment'),
           hasDefaultValue: it.COLUMN_DEFAULT !== null,

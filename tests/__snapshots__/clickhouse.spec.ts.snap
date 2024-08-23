@@ -363,7 +363,7 @@ exports[`introspection 1`] = `
       },
       {
         "comment": undefined,
-        "dataType": "Decimal(16, 4)",
+        "dataType": "Decimal",
         "hasDefaultValue": true,
         "isAutoIncrementing": false,
         "isNullable": false,
@@ -371,7 +371,7 @@ exports[`introspection 1`] = `
       },
       {
         "comment": undefined,
-        "dataType": "Decimal(16, 4)",
+        "dataType": "Decimal",
         "hasDefaultValue": true,
         "isAutoIncrementing": false,
         "isNullable": false,
@@ -379,7 +379,7 @@ exports[`introspection 1`] = `
       },
       {
         "comment": "Amount of unchanged MRR from previous period",
-        "dataType": "Decimal(16, 4)",
+        "dataType": "Decimal",
         "hasDefaultValue": true,
         "isAutoIncrementing": false,
         "isNullable": false,
@@ -387,7 +387,7 @@ exports[`introspection 1`] = `
       },
       {
         "comment": "Amount of new MRR from previous period",
-        "dataType": "Decimal(16, 4)",
+        "dataType": "Decimal",
         "hasDefaultValue": true,
         "isAutoIncrementing": false,
         "isNullable": false,
@@ -395,7 +395,7 @@ exports[`introspection 1`] = `
       },
       {
         "comment": "Amount of churned MRR from previous period",
-        "dataType": "Decimal(16, 4)",
+        "dataType": "Decimal",
         "hasDefaultValue": true,
         "isAutoIncrementing": false,
         "isNullable": false,
@@ -403,7 +403,7 @@ exports[`introspection 1`] = `
       },
       {
         "comment": "Amount of expanded MRR from previous period",
-        "dataType": "Decimal(16, 4)",
+        "dataType": "Decimal",
         "hasDefaultValue": true,
         "isAutoIncrementing": false,
         "isNullable": false,
@@ -411,7 +411,7 @@ exports[`introspection 1`] = `
       },
       {
         "comment": "Amount of contracted MRR from previous period",
-        "dataType": "Decimal(16, 4)",
+        "dataType": "Decimal",
         "hasDefaultValue": true,
         "isAutoIncrementing": false,
         "isNullable": false,
@@ -458,7 +458,7 @@ exports[`introspection 1`] = `
       },
       {
         "comment": undefined,
-        "dataType": "Decimal(16, 4)",
+        "dataType": "Decimal",
         "hasDefaultValue": true,
         "isAutoIncrementing": false,
         "isNullable": false,
@@ -466,7 +466,7 @@ exports[`introspection 1`] = `
       },
       {
         "comment": undefined,
-        "dataType": "Decimal(16, 4)",
+        "dataType": "Decimal",
         "hasDefaultValue": true,
         "isAutoIncrementing": false,
         "isNullable": false,
