@@ -52,8 +52,12 @@ export class ClickhouseConnection implements DatabaseConnection {
         ...compiledQuery.query.values?.values.map(v => v.values) ?? [],
       ]
 
+      
+      const schema = compiledQuery.query.into?.table?.schema?.name;
+      const table = compiledQuery.query.into?.table.identifier.name ?? "";
+      const fullQualifiedTable = schema ? `${schema}.${table}` : table
       const resultSet = await this.#client.insert({
-        table: compiledQuery.query.into.table.identifier.name,
+        table: fullQualifiedTable,
         format: 'JSONCompactEachRowWithNames',
         values,
         clickhouse_settings: {
