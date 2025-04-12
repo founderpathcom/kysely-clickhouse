@@ -26,6 +26,7 @@
     "@biomejs/biome": "^1.5.2",
     "@clickhouse/client": "^1.4.1",
     "@types/bluebird": "^3.5.42",
+    "@types/node": "^22.14.1",
     "kysely": "^0.27.2",
     "typescript": "^5.3.3",
     "vitest": "^1.2.1"
