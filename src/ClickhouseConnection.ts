@@ -40,7 +40,10 @@ export class ClickhouseConnection implements DatabaseConnection {
       return `'${param.replace(/'/gm, `\\'`).replace(/\\"/g, '\\\\"')}'`
     })
 
-    return compiledSql
+    return compiledSql.replace(
+      /^update ((`\w+`\.)*`\w+`) set/i,
+      "alter table $1 update"
+    )
   }
 
   async executeQuery<O>(compiledQuery: CompiledQuery): Promise<QueryResult<O>> {
@@ -93,7 +96,7 @@ export class ClickhouseConnection implements DatabaseConnection {
       }
     }
 
-    if (compiledQuery.query.kind === 'UpdateQueryNode' || compiledQuery.query.kind === 'SelectQueryNode') {
+    if (compiledQuery.query.kind === 'SelectQueryNode') {
       const query = this.prepareQuery(compiledQuery)
 
       const resultSet = await this.#client.query({
