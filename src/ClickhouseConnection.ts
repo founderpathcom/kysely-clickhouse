@@ -7,7 +7,7 @@ import {
 import { createClient } from '@clickhouse/client'
 import { ClickhouseDialectConfig } from '.';
 import { NodeClickHouseClient } from '@clickhouse/client/dist/client';
-
+import { randomUUID } from 'node:crypto';
 
 export class ClickhouseConnection implements DatabaseConnection {
   #client: NodeClickHouseClient
@@ -18,7 +18,8 @@ export class ClickhouseConnection implements DatabaseConnection {
       clickhouse_settings: {
         ...config.options?.clickhouse_settings,
         date_time_input_format: 'best_effort',
-      }
+      },
+      session_id: randomUUID(),
     })
   }
 
@@ -39,19 +40,42 @@ export class ClickhouseConnection implements DatabaseConnection {
       return `'${param.replace(/'/gm, `\\'`).replace(/\\"/g, '\\\\"')}'`
     })
 
-    return compiledSql
+    return compiledSql.replace(
+      /^update ((`\w+`\.)*`\w+`) set/i,
+      "alter table $1 update"
+    )
   }
 
   async executeQuery<O>(compiledQuery: CompiledQuery): Promise<QueryResult<O>> {
-
     if (compiledQuery.query.kind === 'InsertQueryNode') {
+      // @ts-expect-error: fix types
+      if (!compiledQuery.query.values?.values) {
+        // handle complex query (ex: INSERT INTO ... SELECT ...)
+        const query = this.prepareQuery(compiledQuery)
+        const result = await this.#client.query({
+          query,
+          clickhouse_settings: {
+            date_time_input_format: 'best_effort',
+          },
+        });
+
+        const summary = result.response_headers['x-clickhouse-summary']
+        const summaryObject = JSON.parse(
+          (Array.isArray(summary) ? summary[0] : summary) ?? '{}'
+        )
+
+        return {
+          rows: [],
+          numAffectedRows: BigInt(summaryObject.written_rows ?? 0),
+          numChangedRows: BigInt(summaryObject.written_rows ?? 0),
+        }
+      }
 
       const values = [
         compiledQuery.query.columns?.map(c => c.column.name) ?? [],
         // @ts-expect-error: fix types
         ...compiledQuery.query.values?.values.map(v => v.values) ?? [],
       ]
-
       
       const schema = compiledQuery.query.into?.table?.schema?.name;
       const table = compiledQuery.query.into?.table.identifier.name ?? "";
@@ -72,7 +96,7 @@ export class ClickhouseConnection implements DatabaseConnection {
       }
     }
 
-    if (compiledQuery.query.kind === 'UpdateQueryNode' || compiledQuery.query.kind === 'SelectQueryNode') {
+    if (compiledQuery.query.kind === 'SelectQueryNode') {
       const query = this.prepareQuery(compiledQuery)
 
       const resultSet = await this.#client.query({
