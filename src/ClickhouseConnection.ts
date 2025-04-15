@@ -40,7 +40,10 @@ export class ClickhouseConnection implements DatabaseConnection {
       return `'${param.replace(/'/gm, `\\'`).replace(/\\"/g, '\\\\"')}'`
     })
 
-    return compiledSql
+    return compiledSql.replace(
+      /^update ((`\w+`\.)*`\w+`) set/i,
+      "alter table $1 update"
+    )
   }
 
   async executeQuery<O>(compiledQuery: CompiledQuery): Promise<QueryResult<O>> {
@@ -118,9 +121,15 @@ export class ClickhouseConnection implements DatabaseConnection {
         query,
       })
 
-      const response = await resultSet.json()
+      const summary = resultSet.response_headers['x-clickhouse-summary']
+      const summaryObject = JSON.parse(
+        (Array.isArray(summary) ? summary[0] : summary) ?? '{}'
+      )
+
       return {
-        rows: response.data as O[],
+        rows: [],
+        numAffectedRows: BigInt(summaryObject.written_rows ?? 0),
+        numChangedRows: BigInt(summaryObject.written_rows ?? 0),
       }
     }
 

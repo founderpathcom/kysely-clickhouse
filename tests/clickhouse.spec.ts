@@ -38,7 +38,7 @@ test('insert', async () => {
   const compiled = q.compile();
   expect(compiled).toMatchSnapshot()
   
-  // await q.execute();
+  await q.execute();
 })
 
 test('complicated insert', async () => {
@@ -53,5 +53,42 @@ test('complicated insert', async () => {
 
   expect(compiled).toMatchSnapshot()
 
-  // await q.execute()
+  await q.execute()
+})
+
+test('with temporary table', async () => {
+  await kysely.connection().execute(async (db) => { // connection support (temp table)
+    await db.schema
+      .createTable("test")
+      .addColumn("id", "bigint")
+      .temporary()
+      .execute();
+  
+    const db2 = db.withTables<{
+      test: {
+        id: number;
+      };
+    }>();
+  
+    await db2.insertInto("test").values({ id: 1 }).execute();
+
+    await db2
+      .insertInto("test")
+      .expression(
+        db2.selectFrom("test").select(({ eb }) => [eb("id", "+", 1).as("id")]) // complex query
+      )
+      .execute();
+    
+    const result = await db2.selectFrom("test").selectAll().orderBy('id').execute()
+  
+    expect(result).toMatchSnapshot()
+
+    await db2.updateTable("test").set({ id: 3 }).where("id", "=", 1).execute();
+    
+    const result2 = await db2.selectFrom("test").selectAll().orderBy('id').execute()
+  
+    expect(result2).toMatchSnapshot()
+  });
+
+  
 })
