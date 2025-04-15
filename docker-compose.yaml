@@ -1,0 +1,13 @@
+services:
+  clickhouse:
+    image: 'clickhouse/clickhouse-server:24.7.3.42-alpine'
+    environment:
+      CLICKHOUSE_USER: clickhouse
+      CLICKHOUSE_DB: clickhouse
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+      CLICKHOUSE_PASSWORD: clickhouse
+    ports:
+      - '9000:9000'
+      - '8123:8123'
+    volumes:
+      - './docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d'

@@ -8,9 +8,9 @@ const kysely = new Kysely<any>({
   dialect: new ClickhouseDialect({
     options: {
       url: 'http://localhost:8123',
-      username: 'founderpath',
-      password: 'founderpath',
-      database: 'founderpath',
+      username: 'clickhouse',
+      password: 'clickhouse',
+      database: 'test',
     }
   })
 })
