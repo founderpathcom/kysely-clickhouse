@@ -1,12 +1,187 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`insert 1`] = `
-[
-  InsertResult {
-    "insertId": undefined,
-    "numInsertedOrUpdatedRows": 2n,
+exports[`complicated insert 1`] = `
+{
+  "parameters": [],
+  "query": {
+    "columns": [
+      {
+        "column": {
+          "kind": "IdentifierNode",
+          "name": "company_id",
+        },
+        "kind": "ColumnNode",
+      },
+      {
+        "column": {
+          "kind": "IdentifierNode",
+          "name": "date",
+        },
+        "kind": "ColumnNode",
+      },
+      {
+        "column": {
+          "kind": "IdentifierNode",
+          "name": "mrr",
+        },
+        "kind": "ColumnNode",
+      },
+    ],
+    "into": {
+      "kind": "TableNode",
+      "table": {
+        "identifier": {
+          "kind": "IdentifierNode",
+          "name": "company_metrics",
+        },
+        "kind": "SchemableIdentifierNode",
+      },
+    },
+    "kind": "InsertQueryNode",
+    "replace": undefined,
+    "values": {
+      "from": {
+        "froms": [
+          {
+            "kind": "TableNode",
+            "table": {
+              "identifier": {
+                "kind": "IdentifierNode",
+                "name": "company_metrics",
+              },
+              "kind": "SchemableIdentifierNode",
+            },
+          },
+        ],
+        "kind": "FromNode",
+      },
+      "kind": "SelectQueryNode",
+      "selections": [
+        {
+          "kind": "SelectionNode",
+          "selection": {
+            "alias": {
+              "kind": "IdentifierNode",
+              "name": "company_id",
+            },
+            "kind": "AliasNode",
+            "node": {
+              "kind": "RawNode",
+              "parameters": [],
+              "sqlFragments": [
+                "3",
+              ],
+            },
+          },
+        },
+        {
+          "kind": "SelectionNode",
+          "selection": {
+            "column": {
+              "column": {
+                "kind": "IdentifierNode",
+                "name": "date",
+              },
+              "kind": "ColumnNode",
+            },
+            "kind": "ReferenceNode",
+            "table": undefined,
+          },
+        },
+        {
+          "kind": "SelectionNode",
+          "selection": {
+            "alias": {
+              "kind": "IdentifierNode",
+              "name": "mrr",
+            },
+            "kind": "AliasNode",
+            "node": {
+              "kind": "RawNode",
+              "parameters": [],
+              "sqlFragments": [
+                "mrr + 300",
+              ],
+            },
+          },
+        },
+      ],
+    },
   },
-]
+  "sql": "insert into \`company_metrics\` (\`company_id\`, \`date\`, \`mrr\`) select 3 as \`company_id\`, \`date\`, mrr + 300 as \`mrr\` from \`company_metrics\`",
+}
+`;
+
+exports[`insert 1`] = `
+{
+  "parameters": [
+    1,
+    "2025-04-15",
+    100,
+    2,
+    "2025-04-15",
+    200,
+  ],
+  "query": {
+    "columns": [
+      {
+        "column": {
+          "kind": "IdentifierNode",
+          "name": "company_id",
+        },
+        "kind": "ColumnNode",
+      },
+      {
+        "column": {
+          "kind": "IdentifierNode",
+          "name": "date",
+        },
+        "kind": "ColumnNode",
+      },
+      {
+        "column": {
+          "kind": "IdentifierNode",
+          "name": "mrr",
+        },
+        "kind": "ColumnNode",
+      },
+    ],
+    "into": {
+      "kind": "TableNode",
+      "table": {
+        "identifier": {
+          "kind": "IdentifierNode",
+          "name": "company_metrics",
+        },
+        "kind": "SchemableIdentifierNode",
+      },
+    },
+    "kind": "InsertQueryNode",
+    "replace": undefined,
+    "values": {
+      "kind": "ValuesNode",
+      "values": [
+        {
+          "kind": "PrimitiveValueListNode",
+          "values": [
+            1,
+            "2025-04-15",
+            100,
+          ],
+        },
+        {
+          "kind": "PrimitiveValueListNode",
+          "values": [
+            2,
+            "2025-04-15",
+            200,
+          ],
+        },
+      ],
+    },
+  },
+  "sql": "insert into \`company_metrics\` (\`company_id\`, \`date\`, \`mrr\`) values (?, ?, ?), (?, ?, ?)",
+}
 `;
 
 exports[`introspection 1`] = `
@@ -4472,15 +4647,6 @@ exports[`introspection 1`] = `
     "isView": false,
     "name": "revenue_exploded",
     "schema": "founderpath",
-  },
-]
-`;
-
-exports[`update 1`] = `
-[
-  UpdateResult {
-    "numChangedRows": undefined,
-    "numUpdatedRows": 0n,
   },
 ]
 `;
