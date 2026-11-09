@@ -9,6 +9,13 @@ import { ClickhouseDialectConfig } from '.';
 import { NodeClickHouseClient } from '@clickhouse/client/dist/client';
 import { randomUUID } from 'node:crypto';
 
+// In ClickHouse SQL a backslash starts an escape sequence, so backslashes are escaped along with
+// single quotes. Escaping only the quotes let a value such as `O\'Brien` close the literal early,
+// and the rest of the value was read as SQL.
+function clickhouseStringLiteral(value: string): string {
+  return `'${value.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`
+}
+
 export class ClickhouseConnection implements DatabaseConnection {
   #client: NodeClickHouseClient
 
@@ -34,10 +41,10 @@ export class ClickhouseConnection implements DatabaseConnection {
 
       // should never happen
       if (typeof param !== 'string') {
-        return `'${JSON.stringify(param)}'`
+        return clickhouseStringLiteral(String(JSON.stringify(param)))
       }
 
-      return `'${param.replace(/'/gm, `\\'`).replace(/\\"/g, '\\\\"')}'`
+      return clickhouseStringLiteral(param)
     })
 
     return compiledSql.replace(
