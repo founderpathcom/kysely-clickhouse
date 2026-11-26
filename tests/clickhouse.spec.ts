@@ -1,22 +1,10 @@
 import { expect, test } from 'vitest'
+import { sql } from 'kysely'
 
-import {  ClickhouseDialect } from '../src'
-import { Kysely } from 'kysely';
-import { sql } from 'kysely';
+import { createKysely } from './helpers'
 
-const kysely = new Kysely<any>({
-  dialect: new ClickhouseDialect({
-    options: {
-      url: 'http://localhost:8123',
-      username: 'clickhouse',
-      password: 'clickhouse',
-      database: 'test',
-    }
-  })
-})
+const kysely = createKysely()
 
-
-// @todo: make test environment work
 test('introspection', async () => {
   const tables = await kysely.introspection.getTables()
 
@@ -36,7 +24,9 @@ test('insert', async () => {
     }]);
   
   const compiled = q.compile();
-  expect(compiled).toMatchSnapshot()
+
+  // Only the SQL: the shape of the query tree differs between Kysely versions.
+  expect({ sql: compiled.sql, parameters: compiled.parameters }).toMatchSnapshot()
   
   await q.execute();
 })
@@ -51,7 +41,7 @@ test('complicated insert', async () => {
 
   const compiled = q.compile();
 
-  expect(compiled).toMatchSnapshot()
+  expect({ sql: compiled.sql, parameters: compiled.parameters }).toMatchSnapshot()
 
   await q.execute()
 })

@@ -1,6 +1,6 @@
 {
   "name": "@founderpath/kysely-clickhouse",
-  "version": "1.7.0",
+  "version": "2.0.0",
   "description": "Clickhouse Dialect for Kysely",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,7 +11,7 @@
   "scripts": {
     "prepare": "tsc",
     "test": "vitest",
-    "test:up": "docker-compose down && docker compose up -d",
+    "test:up": "docker compose down && docker compose up -d",
     "build": "tsc"
   },
   "files": [

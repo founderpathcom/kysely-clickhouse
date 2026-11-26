@@ -2,16 +2,19 @@ import {
   DatabaseIntrospector,
   DatabaseMetadata,
   DatabaseMetadataOptions,
-  DEFAULT_MIGRATION_LOCK_TABLE,
-  DEFAULT_MIGRATION_TABLE,
   Kysely,
   SchemaMetadata,
   sql,
   TableMetadata
 } from 'kysely'
 
+// The names of Kysely's migration tables. Kysely 0.29 no longer exports these constants from its
+// main entry point, where importing them gives undefined.
+const DEFAULT_MIGRATION_TABLE = 'kysely_migration'
+const DEFAULT_MIGRATION_LOCK_TABLE = 'kysely_migration_lock'
+
 interface RawSchemaMetadata {
-  SCHEMA_NAME: string
+  schema_name: string
 }
 
 interface RawColumnMetadata {
@@ -41,7 +44,7 @@ export class ClickhouseIntrospector implements DatabaseIntrospector {
       .$castTo<RawSchemaMetadata>()
       .execute()
 
-    return rawSchemas.map((it) => ({ name: it.SCHEMA_NAME }))
+    return rawSchemas.map((it) => ({ name: it.schema_name }))
   }
 
   async getTables(

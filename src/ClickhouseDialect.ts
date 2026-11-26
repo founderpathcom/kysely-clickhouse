@@ -3,17 +3,17 @@ import {
   Dialect,
   Driver,
   Kysely,
-  MysqlQueryCompiler,
   QueryCompiler
 } from 'kysely';
 
 import { ClickhouseDriver } from './ClickhouseDriver';
 import { ClickhouseIntrospector } from './ClickhouseIntrospector';
-import type { NodeClickHouseClientConfigOptions } from '@clickhouse/client/dist/config';
+import type { ClickHouseClientConfigOptions } from '@clickhouse/client';
 import { ClickhouseAdapter } from './ClickhouseAdapter';
+import { ClickhouseQueryCompiler } from './ClickhouseQueryCompiler';
 
 export interface ClickhouseDialectConfig {
-  options?: NodeClickHouseClientConfigOptions;
+  options?: ClickHouseClientConfigOptions;
 }
 
 export class ClickhouseDialect implements Dialect {
@@ -32,13 +32,10 @@ export class ClickhouseDialect implements Dialect {
   }
 
   createQueryCompiler(): QueryCompiler {
-    return new MysqlQueryCompiler();
+    return new ClickhouseQueryCompiler();
   }
 
   createIntrospector(db: Kysely<any>): DatabaseIntrospector {
     return new ClickhouseIntrospector(db);
   }
 }
-
-
-

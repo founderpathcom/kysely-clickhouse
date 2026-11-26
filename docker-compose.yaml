@@ -7,7 +7,6 @@ services:
       CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
       CLICKHOUSE_PASSWORD: clickhouse
     ports:
-      - '9000:9000'
-      - '8123:8123'
+      - '${CLICKHOUSE_PORT:-8123}:8123'
     volumes:
       - './docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d'
